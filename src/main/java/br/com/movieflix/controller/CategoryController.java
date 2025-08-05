@@ -3,11 +3,10 @@ package br.com.movieflix.controller;
 import br.com.movieflix.entity.Category;
 import br.com.movieflix.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping("/movieflix/category")
@@ -26,5 +25,24 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
+    @PostMapping()
+    public Category saveCategory(@RequestBody Category category){
+        return categoryService.saveCategory(category);
+    }
+
+    @GetMapping("/{id}")
+    public Category getCategoryId(@PathVariable Long id){
+        Optional<Category> optionalCategory = categoryService.findByid(id);
+        if(optionalCategory.isPresent()){
+            return optionalCategory.get();
+        } else{
+            return null;
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCategory(@PathVariable Long id){
+        categoryService.deleteCategory(id);
+    }
 
 }
