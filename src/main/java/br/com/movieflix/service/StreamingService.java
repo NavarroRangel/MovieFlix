@@ -20,7 +20,7 @@ public class StreamingService {
     public List<Streaming> findAll(){
         return repository.findAll();
     }
-    public Streaming saveCategory(Streaming Streaming){
+    public Streaming saveStreaming(Streaming Streaming){
         return repository.save(Streaming);
     }
 
