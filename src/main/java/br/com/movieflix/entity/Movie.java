@@ -3,9 +3,11 @@ package br.com.movieflix.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "movie")
@@ -15,6 +17,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     private String description;
@@ -32,10 +35,22 @@ public class Movie {
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
+    @ManyToMany
+    @JoinTable(name = "movie_streaming",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> cateogries;
+
+    @ManyToMany
+    @JoinTable(name = "movie_streaming",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "streaming_id"))
+    private List<Streaming> streamings;
+
     public Movie() {
     }
 
-    public Movie(Long id, String title, String description, LocalDate releaseDate, double rating, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Movie(Long id, String title, String description, LocalDate releaseDate, double rating, LocalDateTime createdAt, LocalDateTime updatedAt, List<Category> cateogries, List<Streaming> streamings) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -43,6 +58,24 @@ public class Movie {
         this.rating = rating;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.cateogries = cateogries;
+        this.streamings = streamings;
+    }
+
+    public List<Category> getCateogries() {
+        return cateogries;
+    }
+
+    public void setCateogries(List<Category> cateogries) {
+        this.cateogries = cateogries;
+    }
+
+    public List<Streaming> getStreamings() {
+        return streamings;
+    }
+
+    public void setStreamings(List<Streaming> streamings) {
+        this.streamings = streamings;
     }
 
     public Long getId() {
