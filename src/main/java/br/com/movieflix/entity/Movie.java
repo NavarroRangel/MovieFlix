@@ -2,8 +2,8 @@ package br.com.movieflix.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "movie")
+@Builder
 public class Movie {
 
     @Id

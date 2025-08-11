@@ -1,9 +1,12 @@
 package br.com.movieflix.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.experimental.UtilityClass;
 
 @Entity
 @Table(name = "category")
+@Builder
 public class Category {
 
     @Id
@@ -13,6 +16,9 @@ public class Category {
     @Column(length = 100,nullable = false)
     private String name;
 
+
+    public Category(Long categoryId) {
+    }
 
     public Long getId() {
         return id;
@@ -37,4 +43,5 @@ public class Category {
 
     public Category() {
     }
+
 }

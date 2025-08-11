@@ -1,9 +1,11 @@
 package br.com.movieflix.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "streaming")
+@Builder
 public class Streaming {
 
     @Id
