@@ -23,7 +23,7 @@ public class Movie {
 
     private String description;
 
-    @Column(name = "realese_date")
+    @Column(name = "release_date")
     private LocalDate releaseDate;
 
     private double rating;
@@ -33,11 +33,11 @@ public class Movie {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToMany
-    @JoinTable(name = "movie_streaming",
+    @JoinTable(name = "movie_category",
     joinColumns = @JoinColumn(name = "movie_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> cateogries;
