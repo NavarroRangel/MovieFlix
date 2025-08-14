@@ -6,6 +6,7 @@ import br.com.movieflix.entity.Streaming;
 import br.com.movieflix.repositoiry.MovieRepository;
 import org.hibernate.boot.model.source.internal.hbm.ModelBinder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,41 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public List<Movie> findByCategory(Long categoryId){
+        return movieRepository.findMovieByCateogries(List.of(Category.builder().id(categoryId).build()));
+    }
+
     public Optional<Movie> findById(Long id){
         return movieRepository.findById(id);
+    }
+
+    public Optional<Movie> update(Long movieId, Movie  updateMovie){
+        Optional<Movie> optMovie = movieRepository.findById(movieId);
+        if(optMovie.isPresent()){
+
+            List<Category> cateogries = updateMovie.getCateogries();
+            List<Streaming> streaming = this.findStreaming(updateMovie.getStreamings());
+
+            Movie movie = optMovie.get();
+            movie.setTitle(updateMovie.getTitle());
+            movie.setDescription(updateMovie.getDescription());
+            movie.setRating(updateMovie.getRating());
+            movie.setReleaseDate(updateMovie.getReleaseDate());
+
+            movie.getCateogries().clear();
+            movie.getCateogries().addAll(cateogries);
+
+            movie.getStreamings().clear();
+            movie.getStreamings().addAll(streaming);
+
+            movieRepository.save(movie);
+
+            return Optional.of(movie);
+        }
+        return Optional.empty();
+    }
+    public void delete(Long movieId){
+        movieRepository.deleteById(movieId);
     }
 
     private List<Category> findCategories(List<Category> categories){
@@ -51,4 +85,6 @@ public class MovieService {
         }
         return streamingFound;
     }
+
+
 }
